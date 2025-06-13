@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Add University</title>
+    <link rel="stylesheet" href="style.css"> <!-- Reusing the main stylesheet -->
+    <style>
+        /* Additional styles specific to admin page if needed */
+        body {
+            background-color: #f9f9f9; /* Slightly different background for admin */
+        }
+        main {
+            margin-top: 20px;
+        }
+        #add-university-form div {
+            margin-bottom: 1rem;
+        }
+        #add-university-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        #add-university-form input[type="text"],
+        #add-university-form input[type="number"] {
+            width: calc(100% - 12px); /* Adjust for padding */
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #add-university-form button {
+            background-color: #28a745; /* Green for add */
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        #add-university-form button:hover {
+            background-color: #218838;
+        }
+        .info-text {
+            font-size: 0.9em;
+            color: #555;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Admin Panel - Add University</h1>
+    </header>
+    <main>
+        <section id="add-university">
+            <h2>Add New University Details</h2>
+            <form id="add-university-form">
+                <div>
+                    <label for="uni-name">University Name:</label>
+                    <input type="text" id="uni-name" name="uni-name" required>
+                </div>
+                <div>
+                    <label for="uni-major">Main Major Offered (example):</label>
+                    <input type="text" id="uni-major" name="uni-major" required>
+                </div>
+                <div>
+                    <label for="uni-location">Location:</label>
+                    <input type="text" id="uni-location" name="uni-location" required>
+                </div>
+                <div>
+                    <label for="uni-gpa">Minimum GPA Required:</label>
+                    <input type="number" id="uni-gpa" name="uni-gpa" step="0.1" min="0" max="4" required>
+                </div>
+                <button type="submit">Add University to Database</button>
+            </form>
+            <p class="info-text">
+                <strong>Note:</strong> In a full application, submitting this form would send the data to a backend server,
+                which would then run a script similar to <code>add_university.js</code> to update <code>database.json</code>.
+                Due to environment limitations, this form currently does not directly modify the database file.
+                To add data, you would manually edit <code>database.json</code> or run <code>node add_university.js</code>
+                (if Node.js is available and the script is modified to accept dynamic input).
+            </p>
+             <p><a href="index.html">Back to Shortlister</a></p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 University Shortlister Admin</p>
+    </footer>
+    <script>
+        // Optional: Client-side validation or feedback script
+        document.getElementById('add-university-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent actual submission
+
+            const uniName = document.getElementById('uni-name').value;
+            // In a real app, gather all data and send via fetch to a backend API
+            alert('Form submitted (simulation)!\nName: ' + uniName + '\nSee console and info text for how this would work in a live environment.');
+
+            // Example of how data *could* be prepared for a backend
+            const universityData = {
+                name: uniName,
+                major: document.getElementById('uni-major').value,
+                location: document.getElementById('uni-location').value,
+                gpa: parseFloat(document.getElementById('uni-gpa').value)
+            };
+            console.log('Simulated data to be sent to backend:', universityData);
+            // fetch('/api/add-university', { method: 'POST', body: JSON.stringify(universityData), headers: {'Content-Type': 'application/json'} })
+            // .then(response => response.json())
+            // .then(data => console.log('Success:', data))
+            // .catch((error) => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+[
+  {
+    "name": "State University",
+    "major": "Computer Science",
+    "location": "Metro City",
+    "gpa": 3.2
+  },
+  {
+    "name": "Tech Institute",
+    "major": "Engineering",
+    "location": "Suburbia",
+    "gpa": 3.5
+  },
+  {
+    "name": "Liberal Arts College",
+    "major": "English",
+    "location": "College Town",
+    "gpa": 3.0
+  },
+  {
+    "name": "City College",
+    "major": "Business",
+    "location": "Metro City",
+    "gpa": 2.8
+  }
+]

@@ -1,16 +1,43 @@
 document.addEventListener('DOMContentLoaded', () => {
     const criteriaForm = document.getElementById('criteria-form');
     const universityList = document.getElementById('university-list');
+    let universities = []; // To store fetched university data
 
-    const universities = [
-        { name: 'University A', major: 'Computer Science', location: 'City X', gpa: 3.5 },
-        { name: 'University B', major: 'Engineering', location: 'City Y', gpa: 3.2 },
-        { name: 'University C', major: 'Business', location: 'City X', gpa: 3.8 },
-        { name: 'University D', major: 'Computer Science', location: 'City Z', gpa: 3.0 },
-        { name: 'University E', major: 'Arts', location: 'City Y', gpa: 3.9 },
-        { name: 'University F', major: 'Computer Science', location: 'City X', gpa: 3.1 },
-        { name: 'University G', major: 'Engineering', location: 'City Z', gpa: 3.6 },
-    ];
+    // Fetch university data from database.json
+    fetch('database.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            universities = data;
+            // console.log('Universities loaded:', universities); // For debugging
+            // Optionally, display all universities initially or a prompt
+            displayUniversities(universities);
+        })
+        .catch(error => {
+            console.error('Error fetching university data:', error);
+            universityList.innerHTML = '<li>Error loading university data. Please try again later.</li>';
+        });
+
+    function displayUniversities(uniArray) {
+        universityList.innerHTML = ''; // Clear previous results
+
+        if (uniArray.length === 0) {
+            const listItem = document.createElement('li');
+            listItem.textContent = 'No universities to display at the moment.';
+            universityList.appendChild(listItem);
+            return;
+        }
+
+        uniArray.forEach(uni => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${uni.name} - Major: ${uni.major}, Location: ${uni.location}, Min GPA: ${uni.gpa}`;
+            universityList.appendChild(listItem);
+        });
+    }
 
     criteriaForm.addEventListener('submit', (event) => {
         event.preventDefault();
@@ -19,41 +46,31 @@ document.addEventListener('DOMContentLoaded', () => {
         const inputLocation = document.getElementById('location').value.trim().toLowerCase();
         const inputGpa = parseFloat(document.getElementById('gpa').value);
 
-        universityList.innerHTML = ''; // Clear previous results
-
         if (!inputMajor && !inputLocation && isNaN(inputGpa)) {
-            const listItem = document.createElement('li');
-            listItem.textContent = 'Please enter some criteria to start shortlisting.';
-            universityList.appendChild(listItem);
+            // If no criteria, display all fetched universities or a prompt
+            displayUniversities(universities);
+            // Or display a specific prompt:
+            // universityList.innerHTML = '<li>Please enter some criteria to start shortlisting.</li>';
             return;
         }
 
         const filteredUniversities = universities.filter(uni => {
-            // Corrected GPA logic and filter combination
             if (inputMajor && !uni.major.toLowerCase().includes(inputMajor)) {
                 return false;
             }
             if (inputLocation && !uni.location.toLowerCase().includes(inputLocation)) {
                 return false;
             }
-            if (!isNaN(inputGpa) && !(inputGpa >= uni.gpa)) { // User's GPA must be >= uni's min GPA
+            if (!isNaN(inputGpa) && !(inputGpa >= uni.gpa)) {
                 return false;
             }
-
-            // If all specified criteria are met (or not specified), it's a match.
             return true;
         });
 
         if (filteredUniversities.length > 0) {
-            filteredUniversities.forEach(uni => {
-                const listItem = document.createElement('li');
-                listItem.textContent = `${uni.name} - Major: ${uni.major}, Location: ${uni.location}, Min GPA: ${uni.gpa}`;
-                universityList.appendChild(listItem);
-            });
+            displayUniversities(filteredUniversities);
         } else {
-            const listItem = document.createElement('li');
-            listItem.textContent = 'No universities match your criteria.';
-            universityList.appendChild(listItem);
+            universityList.innerHTML = '<li>No universities match your criteria.</li>';
         }
     });
 });
