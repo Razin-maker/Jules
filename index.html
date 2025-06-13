@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Shortlister</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>University Shortlister</h1>
+    </header>
+    <main>
+        <section id="criteria">
+            <h2>Enter Your Criteria</h2>
+            <form id="criteria-form">
+                <div>
+                    <label for="major">Desired Major:</label>
+                    <input type="text" id="major" name="major">
+                </div>
+                <div>
+                    <label for="location">Preferred Location:</label>
+                    <input type="text" id="location" name="location">
+                </div>
+                <div>
+                    <label for="gpa">Minimum GPA:</label>
+                    <input type="number" id="gpa" name="gpa" step="0.1" min="0" max="4">
+                </div>
+                <button type="submit">Shortlist</button>
+            </form>
+        </section>
+        <section id="results">
+            <h2>Shortlisted Universities</h2>
+            <ul id="university-list">
+                <!-- Universities will be listed here -->
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 University Shortlister</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
